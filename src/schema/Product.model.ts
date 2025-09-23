@@ -62,6 +62,10 @@ const productSchema = new Schema(
       type: Number,
       default: 0,
     },
+    soldCount: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true } //updatedAt, createdAt
 );

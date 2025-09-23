@@ -12,16 +12,20 @@ import Errors, { HttpCode, Message } from "../libs/Errors";
 import { ObjectId } from "mongoose";
 import { OrderStatus } from "../libs/enums/order.enum";
 import MemberService from "./Member.service";
+import ProductModel from "../schema/Product.model";
+import { ProductInput } from "../libs/types/product";
 
 class OrderService {
   private readonly orderModel;
   private readonly orderItemModel;
   private readonly memberService;
+  productModel: any;
 
   constructor() {
     this.orderModel = OrderModel;
     this.orderItemModel = OrderItemModel;
     this.memberService = new MemberService();
+    this.productModel = ProductModel;
   }
 
   public async createOrder(
@@ -39,6 +43,7 @@ class OrderService {
       const newOrder: Order = await this.orderModel.create({
         orderTotal: amount + delivery,
         orderDelivery: delivery,
+
         memberId: memberId,
       });
 
@@ -46,6 +51,7 @@ class OrderService {
       console.log("orderId::", newOrder._id);
       await this.recordOrderItem(orderId, input);
       //TODO: create order items
+
       return newOrder;
     } catch (err) {
       console.log("Error, model: createOrder", err);
@@ -61,6 +67,14 @@ class OrderService {
       item.orderId = orderId;
       item.productId = shapeIntoMongooseObjectId(item.productId);
       await this.orderItemModel.create(item);
+
+      await this.productModel.findOneAndUpdate(
+        { _id: item.productId },
+        {
+          $inc: { soldCount: item.itemQuantity || 1 },
+        }
+      );
+
       return "Inserted";
     });
 

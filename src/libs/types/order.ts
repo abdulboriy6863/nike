@@ -25,6 +25,7 @@ export interface Order {
 }
 
 export interface OrderItemInput {
+  itemId(itemId: any): unknown;
   itemQuantity: number;
   itemPrice: number;
   productId: ObjectId;

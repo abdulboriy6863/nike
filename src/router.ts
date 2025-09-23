@@ -33,6 +33,8 @@ router.post(
 router.get("/member/top-users", memberController.getTopUsers);
 
 /* PRODUCT */
+router.get("/product/topSellingProduct", productController.topSellingProduct);
+
 router.get("/product/all", productController.getProducts);
 router.get(
   "/product/:id",

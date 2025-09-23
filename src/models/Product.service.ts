@@ -99,6 +99,21 @@ class Productservice {
     return result;
   }
 
+  public async topSellingProduct(): Promise<Product[]> {
+    const result = await this.productModel
+      .find({
+        productStatus: ProductStatus.PROCESS,
+        soldCount: { $gte: -1 },
+      })
+      .sort({ soldCount: -1 })
+      .limit(4)
+      .exec();
+
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+    return result;
+  }
+
   /* SSR */
 
   public async getAllProducts(): Promise<Product[]> {
