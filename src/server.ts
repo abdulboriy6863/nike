@@ -1,6 +1,8 @@
 import dotenv from "dotenv"; //EXTERNAL package
 //1.ENVIRONMENTAL VARIABLElarni integratsia qilyapti
-dotenv.config();
+dotenv.config({
+  path: process.env.NODE_ENV === "production" ? ".env.production" : ".env",
+});
 // 2.va CONFIG methodi orqali ularni chaqirib olyapmiz
 import mongoose from "mongoose"; // EXTERNAL package
 // 3.MONGOOSE ni qiladigon ishi bizga TSP ni hosil qilib beryapti

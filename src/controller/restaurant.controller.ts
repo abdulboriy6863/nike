@@ -101,7 +101,6 @@ restaurantController.processLogin = async (
     //member servis classidan memberservis  INSTINSINI hosil qildik
     //MemberService moduledan hosil qilgan objectimizni processLogin methodiga argument sifatida inputni pass qilaymiz
     const result = await memberService.processLogin(input);
-    console.log("Result keldi 3", result);
     //memberService objectini processLogin methodi orqali argument sifatida inputni pass qilib uni Call qilyapmiz va natijani kuttirib constanta resultga teglayapmiz
     // shu yeraga natija keladi yani biz logindagi infoni olamiz
     // console.log(result);
@@ -149,7 +148,6 @@ restaurantController.getUsers = async (req: Request, res: Response) => {
     console.log("getUsers");
     const result = await memberService.getUsers();
     res.render("users", { users: result });
-    console.log("userResult:", result);
   } catch (err) {
     console.log("Error, getUsers:", err);
     res.redirect("/admin/login");

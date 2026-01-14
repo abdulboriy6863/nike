@@ -75,7 +75,6 @@ productController.getAllProducts = async (req: Request, res: Response) => {
 
     const data = await productService.getAllProducts();
     //
-    console.log("data:", data);
     //hato
     res.render("products", { products: data });
   } catch (err) {
@@ -91,8 +90,6 @@ productController.createNewProduct = async (
 ) => {
   try {
     console.log("createNewProduct"); // log qilishimizni sababi => requestimiz backandga kirib keladimi yana bu (loging standarti)
-
-    console.log("req.body:::", req.body);
 
     if (!req.files?.length)
       //kirib kelayotgan file lengthizi kamida bitta file bolmasa costimized errorlarimizni yuboryappiz

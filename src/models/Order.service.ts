@@ -48,7 +48,6 @@ class OrderService {
       });
 
       const orderId = newOrder._id;
-      console.log("orderId::", newOrder._id);
       await this.recordOrderItem(orderId, input);
       //TODO: create order items
 
@@ -78,9 +77,7 @@ class OrderService {
       return "Inserted";
     });
 
-    console.log("promisedList::", promisedList);
     const orderItemsState = await Promise.all(promisedList);
-    console.log("orderItemsState::", orderItemsState);
   }
 
   public async getMyOrders(
@@ -90,10 +87,11 @@ class OrderService {
     const memberid = shapeIntoMongooseObjectId(member._id);
     const matches = { memberId: memberid, orderStatus: inquiry.orderStatus };
 
+    console.log();
     const result = await this.orderModel
       .aggregate([
         { $match: matches },
-        { $sort: { updatedAt: -1 } },
+        { $sort: { updatedAt: +1 } },
         { $skip: (inquiry.page - 1) * inquiry.limit },
         { $limit: inquiry.limit },
 
@@ -126,7 +124,6 @@ class OrderService {
       ])
       .exec();
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
-    console.log("keldi::::::", result);
     return result;
   }
 
